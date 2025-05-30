@@ -44,6 +44,7 @@ def to_int(value: str) -> int:
 
 
 def extract_unit_info(raw: str) -> Unit:
+    print(f"Processing: {raw}")
     pattern = (
         r'Residence (?P<unit>\d+) in '
         r'(?P<building>.+?) on '
@@ -68,7 +69,7 @@ def extract_unit_info(raw: str) -> Unit:
 
 
 def write_csv(units: list[Unit]):
-    with open("data.csv", "w+", newline="") as f:
+    with open("NewportRentals.csv", "w+", newline="") as f:
         field_names = list(Unit.model_fields.keys())
         writer = csv.DictWriter(f, fieldnames=field_names)
         writer.writeheader()
