@@ -36,6 +36,6 @@ jobs:
     - name: Run Python script
       run: uv run python main.py
       env:
-        GOOGLE_SHEETS__SAVE: ${{ secrets.GOOGLE_SHEETS__SAVE }}
-        GOOGLE_SHEETS__FILE_NAME: ${{ secrets.GOOGLE_SHEETS__FILE_NAME }}
-        GOOGLE_SHEETS__CREDENTIALS_FILE: ${{ secrets.GOOGLE_SHEETS__CREDENTIALS_FILE }}
+        GOOGLE_SHEETS__SAVE: ${{ vars.GOOGLE_SHEETS__SAVE }}
+        GOOGLE_SHEETS__FILE_NAME: ${{ vars.GOOGLE_SHEETS__FILE_NAME }}
+        GOOGLE_SHEETS__CREDENTIALS_FILE: ${{ vars.GOOGLE_SHEETS__CREDENTIALS_FILE }}
