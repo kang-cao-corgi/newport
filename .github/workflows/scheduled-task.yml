@@ -1,4 +1,4 @@
-name: Scheduled Python Script
+name: Scheduled Fetcher
 
 on:
   schedule:
@@ -28,7 +28,7 @@ jobs:
 
     - name: Decrypt bot.json
       run: |
-        gpg --batch --yes --passphrase "$GPG_PASSPHRASE" -o bot.json -d bot.json.gpg
+        gpg --batch --yes --cipher-algo AES256 --passphrase "$GPG_PASSPHRASE" -o bot.json -d bot.json.gpg
       env:
         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
