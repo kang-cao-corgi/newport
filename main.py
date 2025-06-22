@@ -14,13 +14,13 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class ProxyConfig(BaseModel):
     enabled: bool = False
-    port: str = ""
+    port: str = "__dummy"
 
 
 class GoogleSheetsConfig(BaseModel):
     save: bool = False
-    file_name: str
-    sheet_name: str = "raw"
+    file_name: str = "__dummy"
+    sheet_name: str = "__dummy"
     credentials_file: str = "bot.json"
 
 
@@ -35,9 +35,9 @@ class Settings(BaseSettings):
         env_nested_delimiter="__",
     )
 
-    proxy: ProxyConfig
-    google_sheets: GoogleSheetsConfig
-    local_csv: LocalCSVConfig
+    proxy: ProxyConfig = ProxyConfig()
+    google_sheets: GoogleSheetsConfig = GoogleSheetsConfig()
+    local_csv: LocalCSVConfig = LocalCSVConfig()
 
 
 
