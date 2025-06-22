@@ -1,0 +1,40 @@
+name: Scheduled Python Script
+
+on:
+  schedule:
+    # Runs every day at 7:00 UTC
+    - cron: '0 13,20 * * *'
+
+  # Optional: allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install uv
+        uv sync
+
+    - name: Decrypt bot.json
+      run: |
+        gpg --batch --yes --passphrase "$GPG_PASSPHRASE" -o bot.json -d bot.json.gpg
+      env:
+        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
+    - name: Run Python script
+      run: uv run python main.py
+      env:
+        GOOGLE_SHEETS__SAVE: ${{ secrets.GOOGLE_SHEETS__SAVE }}
+        GOOGLE_SHEETS__FILE_NAME: ${{ secrets.GOOGLE_SHEETS__FILE_NAME }}
+        GOOGLE_SHEETS__CREDENTIALS_FILE: ${{ secrets.GOOGLE_SHEETS__CREDENTIALS_FILE }}

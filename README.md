@@ -11,3 +11,10 @@
     ```
 
     After script finishes, there will be a new .csv file created
+
+- test run in docker
+  ```bash
+  docker build . -t newport
+
+  docker run --mount type=bind,source=$(pwd)/output,target=/app/output newport:latest
+  ```

@@ -1,0 +1,7 @@
+*.csv
+.venv/
+*.json
+LICENSE
+test*.*
+output/*
+.env
