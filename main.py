@@ -1,8 +1,9 @@
 import asyncio
 import csv
 import datetime as dt
-from typing import Any
 import re
+import zoneinfo
+from typing import Any
 
 import gspread
 import lxml.html  # pyright: ignore[reportMissingTypeStubs]
@@ -122,7 +123,8 @@ def write_gsheet(units: list[Unit]):
     client = gspread.authorize(creds)  # pyright: ignore
     sheet = client.open(SETTINGS.google_sheets.file_name).worksheet(SETTINGS.google_sheets.sheet_name)
 
-    timestamp = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    timezone = zoneinfo.ZoneInfo("America/New_York")
+    timestamp = dt.datetime.now(timezone).strftime("%Y-%m-%d %H:%M:%S")
 
     sheet.append_rows([
         [*list(unit.model_dump().values()), timestamp]
