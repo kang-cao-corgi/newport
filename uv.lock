@@ -935,6 +935,7 @@ dev = [
     { name = "isort" },
     { name = "mitmproxy", version = "11.0.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "mitmproxy", version = "12.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "pyperclip" },
 ]
 
 [package.metadata]
@@ -953,6 +954,7 @@ requires-dist = [
 dev = [
     { name = "isort", specifier = ">=6.0.1" },
     { name = "mitmproxy", specifier = ">=11.0.2" },
+    { name = "pyperclip", specifier = ">=1.9.0" },
 ]
 
 [[package]]
