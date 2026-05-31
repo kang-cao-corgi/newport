@@ -15,7 +15,7 @@ from pydantic import BaseModel, NonNegativeInt, PositiveInt, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 logger = logging.getLogger("main")
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 
 class ProxyConfig(BaseModel):
@@ -104,16 +104,15 @@ def extract_unit_info(ele: lxml.html.HtmlElement) -> Unit:
 
 
 def write_csv(units: list[Unit]):
-    with open(
-        f'{SETTINGS.local_csv.file_prefix}_{date_of_today().strftime("%m%d%Y")}.csv',
-        "w+",
-        newline="",
-    ) as f:
+    path = f'{SETTINGS.local_csv.file_prefix}_{date_of_today().strftime("%m%d%Y")}.csv'
+    with open(path, "w+", newline="") as f:
         field_names = list(Unit.model_fields.keys())
         writer = csv.DictWriter(f, fieldnames=field_names)
         writer.writeheader()
         for unit in units:
             writer.writerow(unit.model_dump())
+
+    logger.info(f"CSV file written at {path=}")
 
 
 def write_gsheet(units: list[Unit]):
@@ -130,6 +129,7 @@ def write_gsheet(units: list[Unit]):
         [*list(unit.model_dump().values()), timestamp]
         for unit in units
     ])
+    logger.info(f"Google sheet writen to {SETTINGS.google_sheets.sheet_name=} at {timestamp=}")
 
 
 async def main():
@@ -156,7 +156,7 @@ async def main():
             try:
                 units.append(extract_unit_info(ele))
             except Exception:
-                logger.error(f"Failed to parse unit: {ele.attrib.get('aria-label', None)}, {traceback.format_exc()=}")
+                logger.error(f"Failed to parse unit: {lxml.html.tostring(ele)}, {traceback.format_exc()=}")
 
         if SETTINGS.local_csv.save:
             write_csv(units)
