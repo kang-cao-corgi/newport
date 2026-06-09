@@ -143,6 +143,7 @@ async def main():
     async with AsyncClient(
         headers={},  # TODO
         follow_redirects=True,
+        timeout=20,
         **kwargs
     ) as client:
         resp = await client.get("https://www.newportrentals.com/apartments-jersey-city-for-rent")
